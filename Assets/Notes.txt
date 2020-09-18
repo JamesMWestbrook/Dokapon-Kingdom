@@ -1,4 +1,4 @@
-
+﻿
 Only need basic node for now, for movement
 	Money Node
 	Weapons Node
@@ -16,3 +16,14 @@ Each Player will have a set prefab for the model, and it's current texture will 
 To do
 	Turns
 	
+	
+	
+	
+	remove player from node
+	make node update
+	add player to new node
+	make new node update
+	
+	rotate everyone ( ͡° ͜ʖ ͡°)
+	
+	10.4103
