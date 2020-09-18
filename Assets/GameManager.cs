@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
         
 
 
-            //camera.transform.position = new Vector3(camera.transform.position.x,camera.transform.position.y, player.CurrentTile.transform.position.z +  5f);
+        camera.transform.position = new Vector3(player.CurrentTile.transform.position.x,camera.transform.position.y, player.CurrentTile.transform.position.z +  5f);
 
     }
 }
