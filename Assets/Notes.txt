@@ -1,0 +1,18 @@
+
+Only need basic node for now, for movement
+	Money Node
+	Weapons Node
+	Items Node
+	Battle Node
+	Town Node?
+
+Characters
+Model
+	Model textures
+Each Player will have a set prefab for the model, and it's current texture will yep okay that makes sense perfect
+
+
+
+To do
+	Turns
+	
