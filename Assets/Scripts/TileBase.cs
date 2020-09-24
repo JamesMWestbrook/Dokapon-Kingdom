@@ -34,6 +34,8 @@ public class TileBase : MonoBehaviour
     public void OrganizePlayers(){
         for(int i = 0; i < Players.Count; i++){
             Players[i].transform.position = PlayerSpots[i].position;
+            if(i < 1) Players[i].transform.localScale = new Vector3( 0.15f, 0.15f, 0.15f);
+            else Players[i].transform.localScale = new Vector3( 0.10f, 0.10f, 0.10f);;
         }
     }
 }

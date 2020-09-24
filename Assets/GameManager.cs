@@ -81,8 +81,10 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public bool CanMove = true;
     public void MoveTile(string input, Player player)
     {
+        if(!CanMove) return;
         TileBase tile = player.CurrentTile;
         int NewY = 0;
         switch (input)
@@ -127,6 +129,7 @@ public class GameManager : MonoBehaviour
         tile.Players.Insert(0,player);
         tile.OrganizePlayers();
 
+        //LeanTween.move(player.gameObject, tile.PlayerSpots[0].position, 0.3f);
         player.transform.position = tile.PlayerSpots[0].position;
         player.CurrentTile = tile;
         
