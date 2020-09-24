@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     public Camera camera;
     public List<Player> Players;
-    public int CurrentTurn;
+    public int PlayerTurn;
+    public int GameTurn;
     public GameStates GameState;
     public enum GameStates
     {
@@ -15,12 +17,23 @@ public class GameManager : MonoBehaviour
         Cutscene
 
     }
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
     void Start()
     {
         StartTurn(Players[0]);
     }
 
-    // Update is called once per frame
     void Update()
     {
         switch (GameState)
@@ -30,7 +43,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameStates.Movement:
                 string input = "";
-                Player player = Players[CurrentTurn];
+                Player player = Players[PlayerTurn];
 
                 if (Input.GetKeyDown("up"))
                 {
@@ -49,19 +62,22 @@ public class GameManager : MonoBehaviour
                     input = "right";
                 }
 
-               if(input != "") MoveTile(input, player);
+                if (input != "") MoveTile(input, player);
 
                 break;
             case GameStates.Cutscene:
                 break;
         }
     }
-
+    public bool IsTurn(Player player)
+    {
+        return Players.IndexOf(player) == PlayerTurn;
+    }
     public void StartTurn(Player player)
     {
         //every player in a node, assign them a spot
         SetNodeSpot();
-        
+
         GameState = GameStates.Movement;
         //Roll dice I guess?
         //start movement
@@ -77,14 +93,14 @@ public class GameManager : MonoBehaviour
                 activeNodes.Add(player.CurrentTile);
             }
         }
-        foreach(TileBase tile in activeNodes) tile.OrganizePlayers();
+        foreach (TileBase tile in activeNodes) tile.OrganizePlayers();
 
     }
 
     public bool CanMove = true;
     public void MoveTile(string input, Player player)
     {
-        if(!CanMove) return;
+        if (!CanMove) return;
         TileBase tile = player.CurrentTile;
         int NewY = 0;
         switch (input)
@@ -126,16 +142,12 @@ public class GameManager : MonoBehaviour
 
         player.CurrentTile.Players.Remove(player);
         player.CurrentTile.OrganizePlayers();
-        tile.Players.Insert(0,player);
+        tile.Players.Insert(0, player);
         tile.OrganizePlayers();
 
-        //LeanTween.move(player.gameObject, tile.PlayerSpots[0].position, 0.3f);
-        player.transform.position = tile.PlayerSpots[0].position;
+        Transform NewTileTrans = tile.PlayerSpots[0].transform;
+        LeanTween.move(player.gameObject, tile.PlayerSpots[0].position, 0.1f);
+        LeanTween.move(camera.gameObject, new Vector3(NewTileTrans.position.x, camera.transform.position.y, NewTileTrans.position.z + 5f), 0.1f);
         player.CurrentTile = tile;
-        
-
-
-        camera.transform.position = new Vector3(player.CurrentTile.transform.position.x,camera.transform.position.y, player.CurrentTile.transform.position.z +  5f);
-
     }
 }
